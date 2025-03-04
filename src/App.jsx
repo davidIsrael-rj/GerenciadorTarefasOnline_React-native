@@ -1,5 +1,12 @@
 import React from "react"
+
+import 'react-native-gesture-handler';
+import { enableScreens } from 'react-native-screens'
+// import './gesture-handler';
 import { StyleSheet, Text, View } from "react-native"
+
+
+enableScreens();
 
 export default props => {
     return (
