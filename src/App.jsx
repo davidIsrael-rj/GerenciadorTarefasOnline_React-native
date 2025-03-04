@@ -4,6 +4,7 @@ import 'react-native-gesture-handler';
 import { enableScreens } from 'react-native-screens'
 // import './gesture-handler';
 import { StyleSheet, Text, View } from "react-native"
+import TaskList from "./screens/TaskList";
 
 
 enableScreens();
@@ -14,6 +15,7 @@ export default props => {
             <View style={styles.container}>
                 <Text style={styles.texto}>Gerenciador de Tarefas</Text>
                 <Text style={styles.texto}>Projeto Task</Text>
+                <TaskList/>
             </View>
         </>
     )
