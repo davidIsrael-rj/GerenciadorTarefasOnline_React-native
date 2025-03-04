@@ -6,6 +6,7 @@ export default props => {
         <>
             <View style={styles.container}>
                 <Text style={styles.texto}>Gerenciador de Tarefas</Text>
+                <Text style={styles.texto}>Projeto Task</Text>
             </View>
         </>
     )
