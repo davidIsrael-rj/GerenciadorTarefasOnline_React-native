@@ -16,12 +16,13 @@ import todayImage from '../../assets/imgs/today.jpg'
 import moment from 'moment'
 import 'moment/locale/pt-br'
 import Task from "../components/Task";
-import Icon  from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class TaskList extends Component {
 
     state = {
         showDoneTasks: true,
+        visibleTasks: [],
         tasks: [{
             id: Math.random(),
             desc: 'Comprar Livro de React Native',
@@ -42,8 +43,24 @@ export default class TaskList extends Component {
         }]
     }
 
-    toggleFilter =() => {
-        this.setState({showDoneTasks: !this.state.showDoneTasks})
+    componentDidMount = () => {
+        this.filterTasks()
+    }
+
+    toggleFilter = () => {
+        this.setState({ showDoneTasks: !this.state.showDoneTasks }, this.filterTasks)
+    }
+
+    filterTasks = () => {
+        let visibleTasks = null
+        if (this.state.showDoneTasks) {
+            visibleTasks = [...this.state.tasks]
+        } else {
+            const pending = task => task.doneAt === null
+            visibleTasks = this.state.tasks.filter(pending)
+        }
+
+        this.setState({ visibleTasks })
     }
 
     toggleTask = taskId => {
@@ -53,7 +70,7 @@ export default class TaskList extends Component {
                 task.doneAt = task.doneAt ? null : new Date()
             }
         })
-        this.setState({ tasks })
+        this.setState({ tasks }, this.filterTasks)
     }
 
     render() {
@@ -63,8 +80,8 @@ export default class TaskList extends Component {
                 <ImageBackground source={todayImage} style={styles.backgroud}>
                     <View style={styles.iconBar}>
                         <TouchableOpacity onPress={this.toggleFilter}>
-                            <Icon name={this.state.showDoneTasks ? 'eye' : 'eye-slash'} 
-                                size={20} color={commonStyles.colors.secondary}/>
+                            <Icon name={this.state.showDoneTasks ? 'eye' : 'eye-slash'}
+                                size={20} color={commonStyles.colors.secondary} />
                         </TouchableOpacity>
                     </View>
                     <View style={styles.titleBar}>
@@ -73,7 +90,7 @@ export default class TaskList extends Component {
                     </View>
                 </ImageBackground>
                 <View style={styles.taskList}>
-                    <FlatList data={this.state.tasks}
+                    <FlatList data={this.state.visibleTasks}
                         keyExtractor={item => `${item.id}`}
                         renderItem={({ item }) => <Task {...item} toggleTask={this.toggleTask} />} />
                 </View>
@@ -112,10 +129,10 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginBottom: 30
     },
-    iconBar:{
+    iconBar: {
         flexDirection: "row",
-        marginHorizontal:20,
+        marginHorizontal: 20,
         justifyContent: "flex-end",
-        marginTop: Platform.OS ==='ios' ? 40 : 10
+        marginTop: Platform.OS === 'ios' ? 40 : 10
     }
 })
