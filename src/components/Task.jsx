@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import commonStyles from "../commonStyles";
 
@@ -9,7 +9,7 @@ import 'moment/locale/pt-br'
 export default props => {
 
     const doneOrNotStyle = props.doneAt != null ?
-    { textDecorationLine: 'line-through'} : {}
+        { textDecorationLine: 'line-through' } : {}
 
     const date = props.doneAt ? props.doneAt : props.estimateAt
     const formatteDate = moment(date).locale('pt-br')
@@ -17,9 +17,12 @@ export default props => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.checkContainer}>
-                {getCheckView(props.doneAt)}
-            </View>
+            <TouchableWithoutFeedback
+                onPress={() => props.toggleTask(props.id)}>
+                <View style={styles.checkContainer}>
+                    {getCheckView(props.doneAt)}
+                </View>
+            </TouchableWithoutFeedback>
             <View>
                 <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
                 <Text style={styles.date}>{formatteDate}</Text>
@@ -74,14 +77,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    desc:{
+    desc: {
         fontFamily: commonStyles.fontFamily,
         color: commonStyles.colors.mainText,
         fontSize: 15
     },
-    date:{
+    date: {
         fontFamily: commonStyles.fontFamily,
         color: commonStyles.colors.subText,
-        fontSize:12
+        fontSize: 12
     }
 })
