@@ -1,8 +1,14 @@
 import React, { Component } from "react";
-import { Modal, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import commonStyles from "../commonStyles";
 
+const initialState ={desc: ''}
+
 export default class AddTask extends Component {
+
+    state = {
+        ...initialState
+    }
     render() {
         return (
             <Modal transparent={true} visible={this.props.isVisible}
@@ -14,6 +20,19 @@ export default class AddTask extends Component {
                 </TouchableWithoutFeedback>
                 <View style={styles.container}>
                     <Text style={styles.header}>Nova Tarefa</Text>
+                    <TextInput style={styles.input}
+                        placeholder='Informe a Descrição'
+                        onChange={desc => this.setState({desc})}
+                        value={this.state.desc}
+                    />
+                    <View style={styles.buttons}>
+                        <TouchableOpacity>
+                            <Text style={styles.button}>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Text style={styles.button}>Salvar</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <TouchableWithoutFeedback
                     onPress={this.props.onCancel}>
@@ -30,7 +49,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.7)'
     },
     container:{
-        flex:2,
         backgroundColor: '#fff'
     },
     header:{
@@ -40,5 +58,23 @@ const styles = StyleSheet.create({
         textAlign: "center",
         padding: 15,
         fontSize: 20
+    },
+    input:{
+        fontFamily: commonStyles.fontFamily,
+        height: 40,
+        margin: 15,
+        backgroundColor: '#d3d3d3',
+        borderWidth: 1,
+        borderColor: '#E3E3E3',
+        borderRadius: 6
+    },
+    buttons:{
+        flexDirection:"row",
+        justifyContent:"flex-end"
+    },
+    button:{
+        margin:20,
+        marginRight:30,
+        color:commonStyles.colors.today
     }
 })
