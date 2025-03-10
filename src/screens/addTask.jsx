@@ -2,13 +2,27 @@ import React, { Component } from "react";
 import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import commonStyles from "../commonStyles";
 
-const initialState ={desc: ''}
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+const initialState = { desc: '', date: new Date() }
 
 export default class AddTask extends Component {
+
+
 
     state = {
         ...initialState
     }
+
+    getDateTimePicker = () =>{
+        return <DateTimePicker
+            value={this.state.date}
+            onChange={(_, date)=> this.setState({date})}
+            mode="date"
+        />
+    }
+
+
     render() {
         return (
             <Modal transparent={true} visible={this.props.isVisible}
@@ -22,9 +36,16 @@ export default class AddTask extends Component {
                     <Text style={styles.header}>Nova Tarefa</Text>
                     <TextInput style={styles.input}
                         placeholder='Informe a Descrição'
-                        onChange={desc => this.setState({desc})}
+                        onChange={desc => this.setState({ desc })}
                         value={this.state.desc}
                     />
+                    {this.getDateTimePicker()}
+                    {/* <DateTimePicker
+                        value={this.state.date}
+                        mode={'date'}
+                        display={'default'}
+                        onChange={(evento, selecionado) => setData(selecionado)}
+                    /> */}
                     <View style={styles.buttons}>
                         <TouchableOpacity onPress={this.props.onCancel}>
                             <Text style={styles.button}>Cancelar</Text>
@@ -48,10 +69,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.7)'
     },
-    container:{
+    container: {
         backgroundColor: '#fff'
     },
-    header:{
+    header: {
         fontFamily: commonStyles.fontFamily,
         backgroundColor: commonStyles.colors.today,
         color: commonStyles.colors.secondary,
@@ -59,7 +80,7 @@ const styles = StyleSheet.create({
         padding: 15,
         fontSize: 20
     },
-    input:{
+    input: {
         fontFamily: commonStyles.fontFamily,
         height: 40,
         margin: 15,
@@ -68,13 +89,13 @@ const styles = StyleSheet.create({
         borderColor: '#E3E3E3',
         borderRadius: 6
     },
-    buttons:{
-        flexDirection:"row",
-        justifyContent:"flex-end"
+    buttons: {
+        flexDirection: "row",
+        justifyContent: "flex-end"
     },
-    button:{
-        margin:20,
-        marginRight:30,
-        color:commonStyles.colors.today
+    button: {
+        margin: 20,
+        marginRight: 30,
+        color: commonStyles.colors.today
     }
 })
