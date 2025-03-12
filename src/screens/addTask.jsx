@@ -30,7 +30,7 @@ export default class AddTask extends Component {
             desc: this.state.desc,            
             date: this.state.date,
         }
-        console.warn(this.state.desc);
+        // console.warn(this.state.desc);
         this.props.onSave && this.props.onSave(newTask)
         this.setState({...initialState})
     }
