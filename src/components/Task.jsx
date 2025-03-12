@@ -1,10 +1,20 @@
 import React from "react";
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import {
+    StyleSheet,
+    Text,
+    TouchableWithoutFeedback,
+    View,
+    TouchableOpacity,
+    Alert
+} from "react-native";
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 import commonStyles from "../commonStyles";
 
 import moment from "moment";
 import 'moment/locale/pt-br'
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default props => {
 
@@ -15,19 +25,30 @@ export default props => {
     const formatteDate = moment(date).locale('pt-br')
         .format('ddd, D [de] MMMM [de] Y')
 
+    const getRightContent = () => {
+        return (
+            <TouchableOpacity style={styles.right}>
+                <Icon name="trash" size={30} color='#FFF' />
+            </TouchableOpacity>
+        )
+    }
     return (
-        <View style={styles.container}>
-            <TouchableWithoutFeedback
-                onPress={() => props.toggleTask(props.id)}>
-                <View style={styles.checkContainer}>
-                    {getCheckView(props.doneAt)}
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <Swipeable renderRightActions={getRightContent}>
+                <View style={styles.container}>
+                    <TouchableWithoutFeedback
+                        onPress={() => props.toggleTask(props.id)}>
+                        <View style={styles.checkContainer}>
+                            {getCheckView(props.doneAt)}
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <View>
+                        <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
+                        <Text style={styles.date}>{formatteDate}</Text>
+                    </View>
                 </View>
-            </TouchableWithoutFeedback>
-            <View>
-                <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
-                <Text style={styles.date}>{formatteDate}</Text>
-            </View>
-        </View>
+            </Swipeable>
+        </GestureHandlerRootView>
     )
 }
 
@@ -86,5 +107,12 @@ const styles = StyleSheet.create({
         fontFamily: commonStyles.fontFamily,
         color: commonStyles.colors.subText,
         fontSize: 12
+    },
+    right:{
+      backgroundColor: 'red',
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent:"flex-end",
+      paddingHorizontal: 20
     }
 })
