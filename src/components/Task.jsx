@@ -27,7 +27,8 @@ export default props => {
 
     const getRightContent = () => {
         return (
-            <TouchableOpacity style={styles.right} onPress={() => Alert.alert('Ok')}>
+            <TouchableOpacity style={styles.right}
+                onPress={() => props.onDelete && props.onDelete(props.id)}>
                 <Icon name="trash" size={30} color='#FFF' />
             </TouchableOpacity>
         )
@@ -36,18 +37,20 @@ export default props => {
     const getLeftContent = () => {
         return (
             <View style={styles.left}>
-                <Icon name="trash" size={20} color='#FFF'/>
+                <Icon name="trash" size={20} color='#FFF' />
                 <Text style={styles.excludeText}>Excluir</Text>
             </View>
         )
     }
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <Swipeable renderRightActions={getRightContent}
-                renderLeftActions={getLeftContent}>
+            <Swipeable
+                renderRightActions={getRightContent}
+                renderLeftActions={getLeftContent}
+                onSwipeableLeftOpen={()=>props.onDelete && props.onDelete(props.id)}>
                 <View style={styles.container}>
                     <TouchableWithoutFeedback
-                        onPress={() => props.toggleTask(props.id)}>
+                        onPress={() => props.onToggleTask(props.id)}>
                         <View style={styles.checkContainer}>
                             {getCheckView(props.doneAt)}
                         </View>
@@ -67,7 +70,7 @@ function getCheckView(doneAt) {
     if (doneAt != null) {
         return (
             <View style={styles.done}>
-                <Icon name="check" size={20} color='#FFF'/>
+                <Icon name="check" size={20} color='#FFF' />
             </View>
         )
     } else {
@@ -129,16 +132,16 @@ const styles = StyleSheet.create({
     left: {
         flex: 1,
         backgroundColor: 'red',
-        flexDirection:"row",
+        flexDirection: "row",
         alignItems: "center",
-        justifyContent:"center",
-        paddingHorizontal:20
+        justifyContent: "center",
+        paddingHorizontal: 20
     },
-    excludeText:{
+    excludeText: {
         fontFamily: commonStyles.fontFamily,
         color: '#FFF',
         fontSize: 20,
         margin: 10,
         paddingHorizontal: 40
-    }   
+    }
 })
