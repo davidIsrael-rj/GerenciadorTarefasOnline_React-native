@@ -5,6 +5,7 @@ import { enableScreens } from 'react-native-screens'
 // import './gesture-handler';
 import { SafeAreaView, StyleSheet, Text, View } from "react-native"
 import TaskList from "./screens/TaskList";
+import Auth from "./screens/Auth";
 
 
 enableScreens();
@@ -12,7 +13,8 @@ enableScreens();
 export default props => {
     return (
         <SafeAreaView style={styles.container}>
-            <TaskList />
+            {/* <TaskList /> */}
+            <Auth/>
         </SafeAreaView>
     )
 }
