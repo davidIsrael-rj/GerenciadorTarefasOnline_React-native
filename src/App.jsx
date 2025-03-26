@@ -6,6 +6,8 @@ import { enableScreens } from 'react-native-screens'
 import { SafeAreaView, StyleSheet, Text, View } from "react-native"
 import TaskList from "./screens/TaskList";
 import Auth from "./screens/Auth";
+import Navigator from "./Navigator";
+import { NavigationContainer } from '@react-navigation/native'
 
 
 enableScreens();
@@ -13,8 +15,11 @@ enableScreens();
 export default props => {
     return (
         <SafeAreaView style={styles.container}>
-            {/* <TaskList /> */}
-            <Auth/>
+            {/* <Auth/> */}
+            <NavigationContainer>
+                {/* <TaskList /> */}
+                <Navigator />
+            </NavigationContainer>
         </SafeAreaView>
     )
 }
