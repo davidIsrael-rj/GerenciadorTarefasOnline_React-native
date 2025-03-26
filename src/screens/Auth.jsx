@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+    Alert,
     ImageBackground,
     Platform,
     StyleSheet,
@@ -19,8 +20,16 @@ export default class Auth extends Component {
         email: '',
         password: '',
         confirmPassword: '',
-        stageNew: true
+        stageNew: false
     }
+    signinOrSignup = () => {
+        if (this.state.stageNew) {
+            Alert.alert('Sucesso!', 'Criar conta')
+        } else {
+            Alert.alert('Sucesso!', 'Logar')
+        }
+    }
+
 
     render() {
         return (
@@ -63,14 +72,20 @@ export default class Auth extends Component {
                             onChangeText={confirmPassword => this.setState({ confirmPassword })}
                         />
                     }
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.signinOrSignup}>
                         <View style={styles.button}>
                             <Text style={styles.buttonText}>
                                 {this.state.stageNew ? 'Registrar' : 'Entrar'}
-                                </Text>
+                            </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
+                <TouchableOpacity style={{ padding: 10 }}
+                    onPress={() => this.setState({ stageNew: !this.state.stageNew })}>
+                    <Text style={styles.buttonText}>
+                        {this.state.stageNew ? 'Já possui conta?' : 'Ainda não possui conta?'}
+                    </Text>
+                </TouchableOpacity>
             </ImageBackground>
         )
     }
@@ -89,7 +104,7 @@ const styles = StyleSheet.create({
         fontSize: 70,
         marginBottom: 10
     },
-    subtitle:{
+    subtitle: {
         fontFamily: commonStyles.fontFamily,
         color: '#FFF',
         fontSize: 20,
