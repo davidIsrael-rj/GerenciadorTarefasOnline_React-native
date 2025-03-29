@@ -9,7 +9,9 @@ const Stack = createStackNavigator()
 export default props => (
     <Stack.Navigator initialRouteName="Auth"
         screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Auth" component={Auth} />
+        <Stack.Screen name="Auth">
+            {props => <Auth {...props} />}
+        </Stack.Screen>
         <Stack.Screen name="TaskList" component={TaskList} />
     </Stack.Navigator>
 )
