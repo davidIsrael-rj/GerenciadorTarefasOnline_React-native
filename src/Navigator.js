@@ -13,5 +13,5 @@ export default props => (
             {props => <Auth {...props} />}
         </Stack.Screen>
         <Stack.Screen name="TaskList" component={TaskList} />
-    </Stack.Navigator>
+    </Stack.Navigator>    
 )
