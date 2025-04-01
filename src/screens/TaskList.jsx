@@ -77,12 +77,12 @@ export default class TaskList extends Component {
     }
 
     toggleTask = async taskId => {
-      try{
-        await axios.put(`${server}/tasks/${taskId}/toggle`)
-        await this.loadTasks()
-      }catch(e){
-        showError(e)
-      }
+        try {
+            await axios.put(`${server}/tasks/${taskId}/toggle`)
+            await this.loadTasks()
+        } catch (e) {
+            showError(e)
+        }
     }
 
     addTask = async newTask => {
@@ -104,9 +104,13 @@ export default class TaskList extends Component {
 
     }
 
-    deleteTask = id => {
-        const tasks = this.state.tasks.filter(task => task.id !== id)
-        this.setState({ tasks }, this.filterTasks)
+    deleteTask = async taskId => {
+        try {
+            await axios.delete(`${server}/tasks/${taskId}`)
+            await this.loadTasks()
+        } catch (e) {
+            showError(e)
+        }
     }
     render() {
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
