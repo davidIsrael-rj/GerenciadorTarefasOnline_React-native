@@ -86,20 +86,23 @@ export default class TaskList extends Component {
         this.setState({ tasks }, this.filterTasks)
     }
 
-    addTask = newTask => {
+    addTask = async newTask => {
         if (!newTask.desc || !newTask.desc.trim()) {
             Alert.alert('Dados Inválidos', 'Descrição não informada!')
             return
         }
 
-        const tasks = [...this.state.tasks]
-        tasks.push({
-            id: Math.random(),
-            desc: newTask.desc,
-            estimateAt: newTask.date,
-            doneAt: null
-        })
-        this.setState({ tasks, showAddTask: false }, this.filterTasks)
+        try {
+            await axios.post(`${server}/tasks`, {
+                desc: newTask.desc,
+                estimateAt: newTask.date
+            })
+            this.setState({ showAddTask: false }, this.loadTasks)
+        } catch (e) {
+            showError(e)
+        }
+
+
     }
 
     deleteTask = id => {
