@@ -12,7 +12,10 @@ import {
 
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import commonStyles from "../commonStyles";
-import todayImage from '../../assets/imgs/today.jpg'
+import hojeImage from '../../assets/imgs/today.jpg'
+import amanhaImage from '../../assets/imgs/tomorrow.jpg'
+import semanaImage from '../../assets/imgs/week.jpg'
+import mesImage from '../../assets/imgs/month.jpg'
 
 import axios from "axios";
 import { server, showError } from "../common";
@@ -48,7 +51,7 @@ export default class TaskList extends Component {
 
     loadTasks = async () => {
         try {
-            const maxDate = moment().format('YYYY-MM-DD 23:59:59')
+            const maxDate =await  moment().format(`YYYY-MM-DD 23:59:59`)
             const res = await axios.get(`${server}/tasks?date=${maxDate}`)
             // const res = await axios.get(`${server}/tasks`)
             this.setState({ tasks: res.data }, this.filterTasks)
@@ -104,6 +107,20 @@ export default class TaskList extends Component {
 
     }
 
+    tela = tela => {
+        if (tela === 'hoje') {
+            return hojeImage
+        } else if (tela === 'Amanhã') {
+            return amanhaImage
+        } else if (tela === 'Semana') {
+            return semanaImage
+        } else if (tela === 'Mês') {
+            return mesImage
+        } else {
+            return hojeImage
+        }
+    }
+
     deleteTask = async taskId => {
         try {
             await axios.delete(`${server}/tasks/${taskId}`)
@@ -120,7 +137,7 @@ export default class TaskList extends Component {
                     onCancel={() => this.setState({ showAddTask: false })}
                     onSave={this.addTask}
                 />
-                <ImageBackground source={todayImage} style={styles.backgroud}>
+                <ImageBackground source={this.tela(this.props.title)} style={styles.backgroud}>
                     <View style={styles.iconBar}>
                         <TouchableOpacity onPress={this.toggleFilter}>
                             <Icon name={this.state.showDoneTasks ? 'eye' : 'eye-slash'}
@@ -128,7 +145,7 @@ export default class TaskList extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.titleBar}>
-                        <Text style={styles.title}>Hoje</Text>
+                        <Text style={styles.title}>{this.props.title}</Text>
                         <Text style={styles.subtitulo}>{today}</Text>
                     </View>
                 </ImageBackground>
