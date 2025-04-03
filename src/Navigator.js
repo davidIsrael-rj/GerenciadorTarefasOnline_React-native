@@ -17,7 +17,7 @@ const DrawerComponentes = () => {
                 {props => <TaskList title='Hoje' daysAhead={0} {...props} />}
             </Drawer.Screen>
             <Drawer.Screen name="Amanhã" >
-                {props => <TaskList title='Amanhã' daysAhead={1} {...props} />}
+                {props => <TaskList title='Amanhã' daysAhead={2} {...props} />}
             </Drawer.Screen>
             <Drawer.Screen name="Semana" >
                 {props => <TaskList title='Semana' daysAhead={7} {...props} />}

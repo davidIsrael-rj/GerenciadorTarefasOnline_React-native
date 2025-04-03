@@ -51,7 +51,9 @@ export default class TaskList extends Component {
 
     loadTasks = async () => {
         try {
-            const maxDate =await  moment().format(`YYYY-MM-DD 23:59:59`)
+            const maxDate = await moment()
+                .add({ days: this.props.daysAhead})
+                .format(`YYYY-MM-DD 23:59:59`)
             const res = await axios.get(`${server}/tasks?date=${maxDate}`)
             // const res = await axios.get(`${server}/tasks`)
             this.setState({ tasks: res.data }, this.filterTasks)
