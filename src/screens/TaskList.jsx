@@ -52,7 +52,7 @@ export default class TaskList extends Component {
     loadTasks = async () => {
         try {
             const maxDate = await moment()
-                .add({ days: this.props.daysAhead})
+                .add({ days: this.props.daysAhead })
                 .format(`YYYY-MM-DD 23:59:59`)
             const res = await axios.get(`${server}/tasks?date=${maxDate}`)
             // const res = await axios.get(`${server}/tasks`)
@@ -123,6 +123,17 @@ export default class TaskList extends Component {
         }
     }
 
+    getImage = () => {
+        switch (this.props.daysAhead) {
+            case 0: return hojeImage
+            case 2: return amanhaImage
+            case 7: return semanaImage
+            default: return mesImage
+        }
+    }
+
+
+
     deleteTask = async taskId => {
         try {
             await axios.delete(`${server}/tasks/${taskId}`)
@@ -139,7 +150,7 @@ export default class TaskList extends Component {
                     onCancel={() => this.setState({ showAddTask: false })}
                     onSave={this.addTask}
                 />
-                <ImageBackground source={this.tela(this.props.title)} style={styles.backgroud}>
+                <ImageBackground source={this.getImage()} style={styles.backgroud}>
                     <View style={styles.iconBar}>
                         <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
                             <Icon name='bars'
