@@ -141,6 +141,10 @@ export default class TaskList extends Component {
                 />
                 <ImageBackground source={this.tela(this.props.title)} style={styles.backgroud}>
                     <View style={styles.iconBar}>
+                        <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+                            <Icon name='bars'
+                                size={20} color={commonStyles.colors.secondary} />
+                        </TouchableOpacity>
                         <TouchableOpacity onPress={this.toggleFilter}>
                             <Icon name={this.state.showDoneTasks ? 'eye' : 'eye-slash'}
                                 size={20} color={commonStyles.colors.secondary} />
@@ -200,7 +204,7 @@ const styles = StyleSheet.create({
     iconBar: {
         flexDirection: "row",
         marginHorizontal: 20,
-        justifyContent: "flex-end",
+        justifyContent: "space-between",
         marginTop: Platform.OS === 'ios' ? 40 : 10
     },
     addButton: {
