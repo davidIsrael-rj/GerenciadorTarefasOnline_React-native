@@ -131,6 +131,14 @@ export default class TaskList extends Component {
             default: return mesImage
         }
     }
+    getColor = () => {
+        switch (this.props.daysAhead) {
+            case 0: return commonStyles.colors.today
+            case 2: return commonStyles.colors.tomorrow
+            case 7: return commonStyles.colors.week
+            default: return commonStyles.colors.month
+        }
+    }
 
 
 
@@ -171,7 +179,7 @@ export default class TaskList extends Component {
                         keyExtractor={item => `${item.id}`}
                         renderItem={({ item }) => <Task {...item} onToggleTask={this.toggleTask} onDelete={this.deleteTask} />} />
                 </View>
-                <TouchableOpacity style={styles.addButton}
+                <TouchableOpacity style={[styles.addButton, {backgroundColor: this.getColor()}]}
                     activeOpacity={0.7}
                     onPress={() => this.setState({ showAddTask: true })}>
                     <Icon name="plus" size={20}
